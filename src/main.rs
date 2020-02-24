@@ -1,9 +1,14 @@
 use chrono::prelude::*;
+use std::{thread, time};
 
 fn main() {
-	let time: DateTime<Local> = Local::now();
-	println!("{}", time);
-	display_clock(&(time.hour() / 5), &(time.hour() % 5), &(time.minute() / 5), &(time.minute() % 5), &time.second());
+	let mut current_time: DateTime<Local> = Local::now();
+	loop {
+		current_time = Local::now();
+		print!("\x1B[2J");
+		display_clock(&(current_time.hour() / 5), &(current_time.hour() % 5), &(current_time.minute() / 5), &(current_time.minute() % 5), &current_time.second());
+		thread::sleep(time::Duration::from_secs(1));
+	}
 }
 
 fn display_clock(five_hr: &u32, one_hr: &u32, five_mn: &u32, one_mn: &u32, seconds: &u32) {
